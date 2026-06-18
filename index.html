@@ -7,6 +7,7 @@
     <title>Expense Tracker | Dev Agency</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
     <div class="app-container">
@@ -28,6 +29,10 @@
                         <h3>Expense</h3>
                         <p id="expense-total">-$0.00</p>
                     </div>
+                    <div class="summary-item count">
+                        <h3>Transactions</h3>
+                        <p id="transaction-count">0</p>
+                    </div>
                 </div>
             </section>
 
@@ -37,12 +42,19 @@
                     <div class="form-control">
                         <label for="text">Description</label>
                         <input type="text" id="text" placeholder="e.g. Salary, Groceries" required autocomplete="off">
+                        <span id="text-error" class="validation-error"></span>
                     </div>
                     <div class="form-control">
-                        <label for="amount">Amount <br>
-                            <small class="hint-text">(negative - expense, positive - income)</small>
-                        </label>
-                        <input type="number" id="amount" placeholder="e.g. -50 or 1500" required step="0.01">
+                        <label for="amount">Amount</label>
+                        <input type="number" id="amount" placeholder="e.g. 1500" required step="0.01">
+                        <span id="amount-error" class="validation-error"></span>
+                    </div>
+                    <div class="form-control">
+                        <label for="type">Type</label>
+                        <select id="type" required>
+                            <option value="income">Income</option>
+                            <option value="expense">Expense</option>
+                        </select>
                     </div>
                     <input type="hidden" id="edit-id">
                     <div class="form-actions">
@@ -50,6 +62,27 @@
                         <button class="btn btn-secondary hidden" type="button" id="cancel-btn">Cancel</button>
                     </div>
                 </form>
+            </section>
+
+            <section class="controls">
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Search transactions...">
+                </div>
+                <div class="filter-group">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="income">Income</button>
+                    <button class="filter-btn" data-filter="expense">Expense</button>
+                </div>
+                <div class="sort-box">
+                    <select id="sort-select">
+                        <option value="">Sort By</option>
+                        <option value="amount-asc">Amount (Low to High)</option>
+                        <option value="amount-desc">Amount (High to Low)</option>
+                        <option value="date-desc">Date (Newest)</option>
+                        <option value="date-asc">Date (Oldest)</option>
+                    </select>
+                </div>
+                <button class="btn btn-danger" id="clear-all-btn">Clear All</button>
             </section>
 
             <section class="history">
@@ -60,13 +93,12 @@
                     <!-- Transactions injected by render.js -->
                 </ul>
                 <div id="empty-state" class="empty-state">
-                    <p>No transactions yet.</p>
+                    <p>No transactions available.</p>
                 </div>
             </section>
         </main>
     </div>
 
-    <!-- Modular JS -->
-    <script type="module" src="js/app.js"></script>
+    <script type="module" src="js/main.js"></script>
 </body>
 </html>

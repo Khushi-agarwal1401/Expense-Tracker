@@ -1,4 +1,4 @@
-/* Premium Dark Mode / Glassmorphism */
+/* Base Dark Mode / Glassmorphism */
 :root {
     --bg-dark: #0f172a;
     --card-bg: rgba(30, 41, 59, 0.7);
@@ -104,7 +104,7 @@ body {
     text-align: center;
 }
 
-.summary-item:first-child {
+.summary-item:not(:last-child) {
     border-right: 1px solid var(--border);
 }
 
@@ -129,8 +129,54 @@ body {
     color: var(--expense-color);
 }
 
-.add-transaction, .history {
+.add-transaction, .history, .controls {
     margin-bottom: 2rem;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.search-box input {
+    width: 100%;
+}
+
+.filter-group {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    flex: 1;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.filter-btn:hover, .filter-btn.active {
+    background: var(--accent-primary);
+    color: #fff;
+}
+
+.filter-btn.active {
+    background: var(--accent-primary);
+}
+
+.sort-box {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.sort-box select {
+    flex: 1;
 }
 
 h3 {
@@ -159,7 +205,8 @@ h3 {
 }
 
 input[type="text"],
-input[type="number"] {
+input[type="number"],
+select {
     width: 100%;
     padding: 0.75rem 1rem;
     background: rgba(0, 0, 0, 0.15);
@@ -169,21 +216,23 @@ input[type="number"] {
     font-family: inherit;
     font-size: 1rem;
     transition: var(--transition);
+    appearance: none;
 }
 
 input[type="text"]:focus,
-input[type="number"]:focus {
+input[type="number"]:focus,
+select:focus {
     outline: none;
     border-color: var(--accent-primary);
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
 }
 
-/* Remove arrows from number input */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+
 input[type="number"] {
     -moz-appearance: textfield;
 }
@@ -226,6 +275,17 @@ input[type="number"] {
     background-color: rgba(255, 255, 255, 0.05);
 }
 
+.btn-danger {
+    background-color: var(--danger-color);
+    flex: none;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+.btn-danger:hover {
+    background-color: #b91c1c;
+}
+
 .hidden {
     display: none;
 }
@@ -237,7 +297,6 @@ input[type="number"] {
     padding-right: 0.5rem;
 }
 
-/* Custom Scrollbar for list */
 .transaction-list::-webkit-scrollbar {
     width: 6px;
 }
@@ -250,7 +309,7 @@ input[type="number"] {
     border-radius: 4px;
 }
 
-.transaction-list li {
+.transaction-item {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--border);
     border-radius: 8px;
@@ -264,15 +323,15 @@ input[type="number"] {
     transition: var(--transition);
 }
 
-.transaction-list li:hover {
+.transaction-item:hover {
     background: rgba(255, 255, 255, 0.08);
 }
 
-.transaction-list li.plus {
+.transaction-item.income {
     border-left: 4px solid var(--income-color);
 }
 
-.transaction-list li.minus {
+.transaction-item.expense {
     border-left: 4px solid var(--expense-color);
 }
 
@@ -285,10 +344,24 @@ input[type="number"] {
     font-weight: 500;
 }
 
+.transaction-date {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+}
+
 .transaction-amount {
     font-family: monospace;
     font-size: 1.1rem;
     font-weight: 600;
+}
+
+.transaction-amount.income {
+    color: var(--income-color);
+}
+
+.transaction-amount.expense {
+    color: var(--expense-color);
 }
 
 .transaction-actions {
@@ -298,7 +371,7 @@ input[type="number"] {
     transition: var(--transition);
 }
 
-.transaction-list li:hover .transaction-actions {
+.transaction-item:hover .transaction-actions {
     opacity: 1;
 }
 
@@ -328,10 +401,27 @@ input[type="number"] {
     padding: 1rem;
     font-style: italic;
     display: none;
+    font-size: 0.875rem;
 }
 
 .empty-state.show {
     display: block;
+}
+
+.validation-error {
+    color: var(--danger-color);
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    display: none;
+}
+
+.validation-error.show {
+    display: block;
+}
+
+.input-invalid {
+    border-color: var(--danger-color) !important;
+    box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.3) !important;
 }
 
 /* Animations */
@@ -346,21 +436,6 @@ input[type="number"] {
     }
 }
 
-.transaction-list li {
+.transaction-item {
     animation: slideIn 0.3s ease forwards;
-}
-
-/* Responsive adjustments */
-@media (max-width: 380px) {
-    .app-container {
-        padding: 1.5rem;
-    }
-    
-    #balance {
-        font-size: 2rem;
-    }
-
-    .transaction-actions {
-        opacity: 1; /* Always show actions on mobile since hover isn't reliable */
-    }
 }
