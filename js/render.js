@@ -130,8 +130,8 @@ export const renderTransactions = (transactions = state.transactions) => {
             <td>${t.date}</td>
             <td>
                 <div class="action-btns">
-                    <button class="action-btn edit" onclick="window.enterEditMode('${t.id}')" title="Edit">✏️</button>
-                    <button class="action-btn delete" onclick="window.deleteTransaction('${t.id}')" title="Delete">🗑️</button>
+                    <button class="action-btn edit" onclick="window.enterEditMode('${t.id}')" title="Edit"><i class="fa-solid fa-pencil"></i></button>
+                    <button class="action-btn delete" onclick="window.deleteTransaction('${t.id}')" title="Delete"><i class="fa-solid fa-trash"></i></button>
                 </div>
             </td>
         `;
