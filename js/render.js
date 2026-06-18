@@ -13,7 +13,7 @@ const calculateIncome = (transactions) => {
 const calculateExpense = (transactions) => {
     return transactions
         .filter(item => item.type === 'expense')
-        .reduce((sum, item) => sum + item.amount, 0);
+        .reduce((sum, item) => sum + Math.abs(item.amount), 0);
 };
 
 const calculateBalance = (transactions) => {
@@ -72,6 +72,34 @@ export const renderStatistics = () => {
     if (avgEl) avgEl.innerText = formatMoney(avg);
 };
 
+export const renderOverview = () => {
+    const income = calculateIncome(state.transactions);
+    const expense = calculateExpense(state.transactions);
+    const total = income + expense;
+    
+    const incomePercent = total > 0 ? (income / total) * 100 : 0;
+    const expensePercent = total > 0 ? (expense / total) * 100 : 0;
+    
+    const incomePercentEl = document.getElementById('income-percent');
+    const expensePercentEl = document.getElementById('expense-percent');
+    const incomeBar = document.getElementById('income-bar');
+    const expenseBar = document.getElementById('expense-bar');
+    const donutChart = document.getElementById('donut-chart');
+    
+    if (incomePercentEl) incomePercentEl.innerText = `${incomePercent.toFixed(0)}%`;
+    if (expensePercentEl) expensePercentEl.innerText = `${expensePercent.toFixed(0)}%`;
+    
+    if (incomeBar) incomeBar.style.width = `${incomePercent}%`;
+    if (expenseBar) expenseBar.style.width = `${expensePercent}%`;
+    
+    if (donutChart) {
+        donutChart.style.background = `conic-gradient(
+            var(--primary) 0% ${incomePercent}%,
+            var(--expense) ${incomePercent}% 100%
+        )`;
+    }
+};
+
 export const renderTransactions = (transactions = state.transactions) => {
     const tbody = document.querySelector('#transaction-list');
     const emptyState = document.getElementById('empty-state');
@@ -116,6 +144,7 @@ export const renderAll = () => {
     renderTransactions();
     renderSummary();
     renderStatistics();
+    renderOverview();
 };
 
 export { formatMoney };

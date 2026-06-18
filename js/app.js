@@ -1,5 +1,5 @@
 import { loadState, addTransaction, updateTransaction, deleteTransaction, getTransaction, clearAllTransactions, state } from './state/transactions.js';
-import { renderAll, renderTransactions } from './render.js';
+import { renderAll, renderTransactions, renderOverview } from './render.js';
 
 // DOM Elements
 const form = document.getElementById('transaction-form');
@@ -15,6 +15,31 @@ const cancelEditBtn = document.getElementById('cancel-edit-btn');
 const textError = document.getElementById('text-error');
 const amountError = document.getElementById('amount-error');
 
+// Theme toggle functionality
+const themeToggle = document.getElementById('theme-toggle');
+const htmlEl = document.documentElement;
+
+const loadTheme = () => {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme);
+};
+
+const setTheme = (theme) => {
+    htmlEl.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    themeToggle.innerHTML = theme === 'dark' 
+        ? '<i class="fa-solid fa-sun"></i>' 
+        : '<i class="fa-solid fa-moon"></i>';
+};
+
+themeToggle?.addEventListener('click', () => {
+    const currentTheme = htmlEl.getAttribute('data-theme');
+    setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+});
+
+// Initialize theme
+loadTheme();
+
 // Initialize
 const init = () => {
     loadState();
@@ -29,17 +54,17 @@ const showError = (element, show, message) => {
     if (show) {
         element.textContent = message;
         element.classList.add('show');
-        const input = element.previousElementSibling;
+        const input = element.closest('.form-group')?.querySelector('input, select');
         input?.classList?.add('input-invalid');
     } else {
         element.classList.remove('show');
-        element.previousElementSibling?.classList?.remove('input-invalid');
+        element.closest('.form-group')?.querySelector('input, select')?.classList?.remove('input-invalid');
     }
 };
 
 const validateForm = () => {
     const description = descriptionInput.value.trim();
-    const amount = amountInput.value.trim();
+    const amountStr = amountInput.value.trim();
     
     let isValid = true;
     
@@ -50,7 +75,8 @@ const validateForm = () => {
         showError(textError, false, '');
     }
     
-    if (amount === '' || isNaN(parseFloat(amount))) {
+    const amountNum = parseFloat(amountStr);
+    if (amountStr === '' || isNaN(amountNum)) {
         showError(amountError, true, 'Please enter a valid amount');
         isValid = false;
     } else {
@@ -66,7 +92,7 @@ const handleFormSubmit = (e) => {
     if (!validateForm()) return;
     
     const description = descriptionInput.value.trim();
-    const amount = +amountInput.value;
+    const amount = parseFloat(amountInput.value) || 0;
     const type = typeInput.value;
     const date = dateInput.value || new Date().toISOString().split('T')[0];
     
