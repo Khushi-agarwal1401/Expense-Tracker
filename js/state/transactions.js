@@ -12,9 +12,8 @@ export const saveState = () => {
     saveTransactions(state.transactions);
 };
 
-export const addTransaction = (description, amount, type) => {
+export const addTransaction = (description, amount, type, date) => {
     const numericAmount = +amount;
-    // Apply sign based on type: expense is negative, income is positive
     const signedAmount = type === 'expense' ? -Math.abs(numericAmount) : Math.abs(numericAmount);
     
     const transaction = {
@@ -22,7 +21,7 @@ export const addTransaction = (description, amount, type) => {
         description,
         amount: signedAmount,
         type,
-        date: new Date().toISOString().split('T')[0]
+        date: date || new Date().toISOString().split('T')[0]
     };
     state.transactions.push(transaction);
     saveState();
@@ -34,7 +33,7 @@ export const deleteTransaction = (id) => {
     saveState();
 };
 
-export const updateTransaction = (id, description, amount, type) => {
+export const updateTransaction = (id, description, amount, type, date) => {
     const index = state.transactions.findIndex(t => t.id === id);
     if (index !== -1) {
         const numericAmount = +amount;
@@ -44,7 +43,8 @@ export const updateTransaction = (id, description, amount, type) => {
             ...state.transactions[index],
             description,
             amount: signedAmount,
-            type
+            type,
+            date: date || state.transactions[index].date
         };
         saveState();
         return state.transactions[index];

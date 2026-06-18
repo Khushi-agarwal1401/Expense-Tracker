@@ -5,8 +5,8 @@ A fully-responsive Expense Tracker web application built with pure HTML5, CSS3, 
 ## Features
 
 ### Core CRUD Operations
-- **Create**: Add income or expense transactions with description, amount, and type
-- **Read**: Display transactions with search/filter capabilities
+- **Create**: Add income or expense transactions with description, amount, type, and date
+- **Read**: Display transactions in a table with transaction count
 - **Update**: Edit existing transactions in-place
 - **Delete**: Remove individual transactions or clear all
 
@@ -19,14 +19,16 @@ A fully-responsive Expense Tracker web application built with pure HTML5, CSS3, 
 - Expense total using `filter()` and `reduce()`
 - Balance calculation (income - expenses)
 - Transaction count
+- Statistics: Highest Income, Highest Expense, Average Transaction
 
 ### UI Features
-- Responsive design (320px mobile to desktop)
-- Clean dark theme with glassmorphism
+- Responsive design (320px mobile, 768px tablet, desktop)
+- Clean theme with light/dark mode toggle
 - Real-time form validation with error messages
 - Empty state handling
 - Sort by amount or date
 - Filter by income/expense/all
+- Search by description
 
 ## Project Structure
 
@@ -34,45 +36,28 @@ A fully-responsive Expense Tracker web application built with pure HTML5, CSS3, 
 expense-tracker/
 ├── index.html
 ├── css/
-│   ├── styles.css      # Base styles
+│   ├── styles.css      # Base styles (light/dark theme)
 │   └── responsive.css  # Media queries
 ├── js/
-│   ├── main.js         # Entry point
+│   ├── app.js          # Main entry point, form handlers, event listeners
+│   ├── render.js       # DOM rendering functions
 │   ├── state/
-│   │   └── transactions.js  # State management
-│   ├── storage/
-│   │   └── localStorage.js    # Storage operations
-│   ├── utils/
-│   │   ├── calculations.js    # Calculation functions
-│   │   └── validators.js      # Form validation
-│   └── ui/
-│       ├── render.js      # DOM rendering
-│       └── formHandler.js # Form and event handlers
-└── assets/
+│   │   └── transactions.js  # State management (CRUD operations)
+│   └── storage/
+│       └── localStorage.js    # Storage operations
+└── README.md
 ```
 
 ## Usage
 
 Simply open `index.html` in a browser. No build step required.
 
-## Local Development
+## Git Workflow (Track A)
 
 ```bash
-# Start a local server (optional, for localStorage support)
-npx serve .
-# or
-python -m http.server 8000
-```
-
-## Git Workflow
-
-This project follows Track A Dev Agency workflow:
-
-```bash
-git checkout develop
-git checkout -b feature/expense-tracker-[feature-name]
+git checkout -b feature/expense-tracker
 # ... make changes ...
-git push origin feature/expense-tracker-[feature-name]
+git push origin feature/expense-tracker
 # Create Pull Request for peer review
 ```
 
