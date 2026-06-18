@@ -1,104 +1,266 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A premium Expense Tracker application to manage income and expenses.">
-    <title>Expense Tracker | Dev Agency</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="description" content="A modern, responsive, professional Expense Tracker dashboard.">
+    <title>Expense Tracker Dashboard</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
-    <div class="app-container">
-        <header class="header">
-            <h1>Expense Tracker</h1>
-            <p class="subtitle">Manage your finances effortlessly</p>
-        </header>
 
-        <main class="dashboard">
-            <section class="balance-card">
-                <h2>Total Balance</h2>
-                <h1 id="balance">$0.00</h1>
-                <div class="summary">
-                    <div class="summary-item income">
-                        <h3>Income</h3>
-                        <p id="income-total">+$0.00</p>
-                    </div>
-                    <div class="summary-item expense">
-                        <h3>Expense</h3>
-                        <p id="expense-total">-$0.00</p>
-                    </div>
-                    <div class="summary-item count">
-                        <h3>Transactions</h3>
-                        <p id="transaction-count">0</p>
-                    </div>
-                </div>
-            </section>
+    <!-- Header Navigation -->
+    <header class="top-nav">
+        <div class="nav-left">
+            <div class="logo">
+                <i class="fa-solid fa-chart-pie"></i>
+            </div>
+            <div class="brand">
+                <h1>Expense Tracker</h1>
+                <p>Manage your income and expenses efficiently</p>
+            </div>
+        </div>
+        <div class="nav-right">
+            <button class="icon-btn theme-toggle" id="theme-toggle" aria-label="Toggle Dark Mode">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="icon-btn notification" aria-label="Notifications">
+                <i class="fa-solid fa-bell"></i>
+                <span class="badge"></span>
+            </button>
+            <div class="user-avatar">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <button class="hamburger" id="hamburger-menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
 
-            <section class="add-transaction">
-                <h3 id="form-title">Add Transaction</h3>
-                <form id="transaction-form">
-                    <div class="form-control">
-                        <label for="text">Description</label>
-                        <input type="text" id="text" placeholder="e.g. Salary, Groceries" required autocomplete="off">
-                        <span id="text-error" class="validation-error"></span>
-                    </div>
-                    <div class="form-control">
-                        <label for="amount">Amount</label>
-                        <input type="number" id="amount" placeholder="e.g. 1500" required step="0.01">
-                        <span id="amount-error" class="validation-error"></span>
-                    </div>
-                    <div class="form-control">
-                        <label for="type">Type</label>
-                        <select id="type" required>
-                            <option value="income">Income</option>
-                            <option value="expense">Expense</option>
-                        </select>
-                    </div>
-                    <input type="hidden" id="edit-id">
-                    <div class="form-actions">
-                        <button class="btn btn-primary" type="submit" id="submit-btn">Add Transaction</button>
-                        <button class="btn btn-secondary hidden" type="button" id="cancel-btn">Cancel</button>
-                    </div>
-                </form>
-            </section>
+    <div class="dashboard-wrapper">
+        
+        <!-- Summary Dashboard (4 Cards) -->
+        <section class="summary-grid">
+            <div class="summary-card balance-card">
+                <div class="card-icon blue"><i class="fa-solid fa-wallet"></i></div>
+                <div class="card-info">
+                    <p class="card-label">Available Balance</p>
+                    <h2 class="card-amount" id="current-balance">₹0.00</h2>
+                </div>
+            </div>
+            <div class="summary-card income-card">
+                <div class="card-icon green"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                <div class="card-info">
+                    <p class="card-label">Income</p>
+                    <h2 class="card-amount" id="total-income">₹0.00</h2>
+                </div>
+            </div>
+            <div class="summary-card expense-card">
+                <div class="card-icon red"><i class="fa-solid fa-arrow-trend-down"></i></div>
+                <div class="card-info">
+                    <p class="card-label">Expenses</p>
+                    <h2 class="card-amount" id="total-expenses">₹0.00</h2>
+                </div>
+            </div>
+            <div class="summary-card count-card">
+                <div class="card-icon purple"><i class="fa-solid fa-list-ul"></i></div>
+                <div class="card-info">
+                    <p class="card-label">Total Transactions</p>
+                    <h2 class="card-amount" id="transaction-count">0</h2>
+                </div>
+            </div>
+        </section>
 
-            <section class="controls">
-                <div class="search-box">
-                    <input type="text" id="search-input" placeholder="Search transactions...">
+        <!-- Main Content Layout (Two Column) -->
+        <main class="main-content">
+            
+            <!-- Left Panel: Transaction Form -->
+            <aside class="left-panel">
+                <div class="card form-card">
+                    <h3 id="form-title">Add Transaction</h3>
+                    <form id="transaction-form">
+                        <div class="form-group">
+                            <label for="text">Description</label>
+                            <input type="text" id="text" placeholder="Enter description" autocomplete="off">
+                            <span id="text-error" class="validation-error">Please enter a description</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="amount">Amount</label>
+                            <input type="number" id="amount" placeholder="Enter amount" step="0.01">
+                            <span id="amount-error" class="validation-error">Please enter a valid amount</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="type">Transaction Type</label>
+                            <select id="type">
+                                <option value="expense">Expense</option>
+                                <option value="income">Income</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Date</label>
+                            <input type="date" id="date">
+                        </div>
+                        <input type="hidden" id="edit-id">
+                        
+                        <div class="form-actions">
+                            <button type="submit" id="submit-btn" class="btn btn-primary">Add Transaction</button>
+                            <button type="button" id="reset-btn" class="btn btn-secondary">Reset</button>
+                            <button type="button" id="cancel-edit-btn" class="btn btn-secondary hidden">Cancel Edit</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="filter-group">
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="income">Income</button>
-                    <button class="filter-btn" data-filter="expense">Expense</button>
-                </div>
-                <div class="sort-box">
-                    <select id="sort-select">
-                        <option value="">Sort By</option>
-                        <option value="amount-asc">Amount (Low to High)</option>
-                        <option value="amount-desc">Amount (High to Low)</option>
-                        <option value="date-desc">Date (Newest)</option>
-                        <option value="date-asc">Date (Oldest)</option>
-                    </select>
-                </div>
-                <button class="btn btn-danger" id="clear-all-btn">Clear All</button>
-            </section>
 
-            <section class="history">
-                <div class="history-header">
-                    <h3>Recent Transactions</h3>
+                <!-- Monthly Overview Section -->
+                <div class="card overview-card mt-30">
+                    <h3>Monthly Overview</h3>
+                    <div class="overview-content">
+                        <div class="donut-chart-container">
+                            <div class="donut-chart" id="donut-chart">
+                                <div class="donut-hole"></div>
+                            </div>
+                        </div>
+                        <div class="overview-legend">
+                            <div class="legend-item">
+                                <span class="dot green"></span>
+                                <span class="label">Income</span>
+                                <span class="percent" id="income-percent">0%</span>
+                            </div>
+                            <div class="progress-bar-container"><div class="progress-bar green" id="income-bar"></div></div>
+                            
+                            <div class="legend-item mt-15">
+                                <span class="dot red"></span>
+                                <span class="label">Expenses</span>
+                                <span class="percent" id="expense-percent">0%</span>
+                            </div>
+                            <div class="progress-bar-container"><div class="progress-bar red" id="expense-bar"></div></div>
+                        </div>
+                    </div>
                 </div>
-                <ul id="transaction-list" class="transaction-list">
-                    <!-- Transactions injected by render.js -->
-                </ul>
-                <div id="empty-state" class="empty-state">
-                    <p>No transactions available.</p>
+            </aside>
+
+            <!-- Right Panel: Transaction History -->
+            <section class="right-panel">
+                <div class="card history-card">
+                    <div class="history-header">
+                        <h3>Transaction History</h3>
+                        
+                        <!-- Toolbar -->
+                        <div class="toolbar">
+                            <div class="search-box">
+                                <i class="fa-solid fa-search"></i>
+                                <input type="text" id="search-input" placeholder="Search description...">
+                            </div>
+                            <div class="filter-box">
+                                <select id="filter-select">
+                                    <option value="all">All</option>
+                                    <option value="income">Income</option>
+                                    <option value="expense">Expense</option>
+                                </select>
+                            </div>
+                            <div class="sort-box">
+                                <select id="sort-select">
+                                    <option value="latest">Latest</option>
+                                    <option value="oldest">Oldest</option>
+                                    <option value="highest">Highest Amount</option>
+                                    <option value="lowest">Lowest Amount</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-danger-outline" id="clear-all-trigger">Clear All</button>
+                        </div>
+                    </div>
+
+                    <!-- Transaction Table/List -->
+                    <div class="table-container">
+                        <table class="transaction-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th>Type</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transaction-list">
+                                <!-- JS renders rows here -->
+                            </tbody>
+                        </table>
+                        
+                        <!-- Empty State -->
+                        <div id="empty-state" class="empty-state">
+                            <img src="https://cdn-icons-png.flaticon.com/512/7486/7486831.png" alt="No Data" class="empty-img" style="opacity: 0.5; width: 64px; margin-bottom: 1rem;">
+                            <h4>No transactions available</h4>
+                            <p>Add your first transaction to start tracking your finances.</p>
+                            <button class="btn btn-primary mt-15" id="empty-add-btn">Add Transaction</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics Section -->
+                <div class="stats-section mt-30">
+                    <div class="card stat-card">
+                        <p>Highest Income</p>
+                        <h3 id="stat-high-income" class="text-green">₹0.00</h3>
+                    </div>
+                    <div class="card stat-card">
+                        <p>Highest Expense</p>
+                        <h3 id="stat-high-expense" class="text-red">₹0.00</h3>
+                    </div>
+                    <div class="card stat-card">
+                        <p>Average Transaction</p>
+                        <h3 id="stat-avg">₹0.00</h3>
+                    </div>
                 </div>
             </section>
         </main>
     </div>
 
-    <script type="module" src="js/main.js"></script>
+    <!-- Modals -->
+    <div class="modal-overlay hidden" id="delete-modal">
+        <div class="modal">
+            <h3 class="modal-title">Delete Transaction?</h3>
+            <p class="modal-msg">This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary modal-cancel">Cancel</button>
+                <button class="btn btn-danger modal-confirm" id="confirm-delete-btn">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay hidden" id="clear-all-modal">
+        <div class="modal">
+            <h3 class="modal-title">Clear All Transactions?</h3>
+            <p class="modal-msg">This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary modal-cancel">Cancel</button>
+                <button class="btn btn-danger modal-confirm" id="confirm-clear-btn">Clear All</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-msg">Success</span>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Expense Tracker</p>
+        <p>Built with HTML, CSS and JavaScript | <a href="#">GitHub Repository</a></p>
+    </footer>
+
+    <!-- Modular JS -->
+    <script type="module" src="js/app.js"></script>
 </body>
 </html>

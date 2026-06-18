@@ -1,70 +1,96 @@
-/* Responsive - Mobile */
+/* Responsive CSS for Expense Tracker Dashboard */
+
+/* -------------------------------------
+   Tablet (768px)
+--------------------------------------- */
 @media (max-width: 768px) {
-    .app-container {
-        padding: 1.5rem;
+    /* Summary Grid: 2 cards per row */
+    .summary-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
-    
-    #balance {
-        font-size: 2rem;
-    }
-    
-    .summary {
-        padding: 0.75rem;
-    }
-    
-    .summary-item p {
-        font-size: 1rem;
-    }
-    
-    .transaction-actions {
-        opacity: 1;
-    }
-    
-    .controls {
-        display: flex;
+
+    /* Main Content: Stack left and right panels */
+    .main-content {
         flex-direction: column;
-        gap: 0.75rem;
     }
-    
-    .filter-group {
-        display: flex;
-        gap: 0.5rem;
-        flex-wrap: wrap;
+
+    .left-panel, .right-panel {
+        flex: none;
+        width: 100%;
     }
-    
-    .sort-box {
-        display: flex;
-        gap: 0.5rem;
-    }
-    
-    .sort-box select {
-        flex: 1;
+
+    /* Left panel form and overview stack side by side if preferred, 
+       but vertically is safer for long forms */
+    .overview-card {
+        margin-top: 1.5rem;
     }
 }
 
-/* Responsive - Small Mobile 320px */
-@media (max-width: 320px) {
-    .app-container {
+/* -------------------------------------
+   Mobile (480px and below)
+--------------------------------------- */
+@media (max-width: 480px) {
+    /* Header adjustments */
+    .top-nav {
+        padding: 0 1rem;
+    }
+
+    .brand h1 {
+        font-size: 1rem;
+    }
+    
+    .brand p {
+        display: none; /* hide subtitle to save space */
+    }
+
+    /* Show hamburger, hide desktop nav items optionally */
+    .hamburger {
+        display: block;
+    }
+    .user-avatar {
+        display: none; /* Keep it clean on mobile */
+    }
+
+    .dashboard-wrapper {
         padding: 1rem;
     }
-    
-    .header h1 {
-        font-size: 1.5rem;
+
+    /* Summary Grid: 1 card per row */
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Toolbar stacking */
+    .toolbar {
+        flex-direction: column;
+    }
+
+    .search-box, .filter-box, .sort-box, .btn-danger-outline {
+        width: 100%;
+        flex: none;
+    }
+
+    /* Statistics stacking */
+    .stats-section {
+        flex-direction: column;
+    }
+
+    /* Make table scrollable container smoother */
+    .table-container {
+        padding-bottom: 1rem;
     }
     
-    #balance {
-        font-size: 1.75rem;
+    /* Toast positioning */
+    .toast {
+        right: 50%;
+        transform: translateX(50%);
+        bottom: 1rem;
+        width: 90%;
+        justify-content: center;
     }
     
-    .transaction-list {
-        max-height: 250px;
-    }
-    
-    .header .subtitle {
-        font-size: 0.75rem;
-    }
-    
-    .summary-item h3 {
-        font-size: 0.75rem;
+    .toast.hidden {
+        transform: translate(50%, 120%);
+        opacity: 0;
     }
 }
