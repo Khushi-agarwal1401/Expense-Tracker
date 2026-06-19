@@ -15,6 +15,7 @@ const cancelEditBtn = document.getElementById('cancel-edit-btn');
 const textError = document.getElementById('text-error');
 const amountError = document.getElementById('amount-error');
 const clearAllBtn = document.getElementById('clear-all-trigger');
+const exportExcelBtn = document.getElementById('export-excel-btn');
 
 // Theme toggle functionality
 const themeToggle = document.getElementById('theme-toggle');
@@ -199,6 +200,65 @@ sortSelect?.addEventListener('change', (e) => {
     renderTransactions(sorted);
 });
 
+const escapeCsvValue = (value) => {
+    const stringValue = String(value ?? '');
+    if (/[",\n\r]/.test(stringValue)) {
+        return `"${stringValue.replace(/"/g, '""')}"`;
+    }
+    return stringValue;
+};
+
+const getExportFileName = () => {
+    const today = new Date().toISOString().split('T')[0];
+    return `transactions-${today}.csv`;
+};
+
+const exportTransactionsToExcel = () => {
+    if (state.transactions.length === 0) {
+        window.alert('No transactions to export');
+        return;
+    }
+
+    const rows = [
+        ['Date', 'Description', 'Type', 'Amount'],
+        ...state.transactions.map(transaction => [
+            transaction.date,
+            transaction.description,
+            transaction.type,
+            transaction.amount
+        ])
+    ];
+
+    const csvContent = rows
+        .map(row => row.map(escapeCsvValue).join(','))
+        .join('\r\n');
+
+    const blob = new Blob([`\ufeff${csvContent}`], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = getExportFileName();
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+    window.alert('Transactions exported to Excel');
+    showToast('Transactions exported to Excel');
+};
+
+const showToast = (message) => {
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toast-msg');
+    if (!toast || !toastMsg) return;
+
+    toastMsg.textContent = message;
+    toast.classList.remove('hidden');
+    clearTimeout(window.toastTimer);
+    window.toastTimer = setTimeout(() => {
+        toast.classList.add('hidden');
+    }, 3000);
+};
+
 // Modal handling
 const openModal = (modalId) => {
     const modal = document.getElementById(modalId);
@@ -260,6 +320,7 @@ allCancelBtns.forEach(btn => {
 form?.addEventListener('submit', handleFormSubmit);
 resetBtn?.addEventListener('click', clearForm);
 cancelEditBtn?.addEventListener('click', exitEditMode);
+exportExcelBtn?.addEventListener('click', exportTransactionsToExcel);
 
 // Boot
 init();

@@ -432,6 +432,10 @@ input:focus, select:focus {
     min-width: 120px;
 }
 
+.export-btn i {
+    margin-right: 0.4rem;
+}
+
 /* -------------------------------------
    Transaction Table
 --------------------------------------- */
