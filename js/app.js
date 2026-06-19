@@ -215,14 +215,14 @@ const getExportFileName = () => {
 
 const exportTransactionsToExcel = () => {
     if (state.transactions.length === 0) {
-        window.alert('No transactions to export');
+        showToast('No transactions to export');
         return;
     }
 
-    if (!window.confirm('Export all transactions to Excel?')) {
-        return;
-    }
+    openModal('export-modal');
+};
 
+const downloadTransactionsToExcel = () => {
     const rows = [
         ['Date', 'Description', 'Type', 'Amount'],
         ...state.transactions.map(transaction => [
@@ -246,7 +246,7 @@ const exportTransactionsToExcel = () => {
     link.click();
     link.remove();
     URL.revokeObjectURL(url);
-    window.alert('Transactions exported to Excel');
+    closeModal('export-modal');
     showToast('Transactions exported to Excel');
 };
 
@@ -287,6 +287,12 @@ confirmClearBtn?.addEventListener('click', () => {
     window.filteredTransactions = [];
     renderAll();
     closeModal('clear-all-modal');
+});
+
+const confirmExportBtn = document.getElementById('confirm-export-btn');
+
+confirmExportBtn?.addEventListener('click', () => {
+    downloadTransactionsToExcel();
 });
 
 // Delete transaction with modal
