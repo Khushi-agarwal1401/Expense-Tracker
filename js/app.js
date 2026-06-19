@@ -219,6 +219,10 @@ const exportTransactionsToExcel = () => {
         return;
     }
 
+    if (!window.confirm('Export all transactions to Excel?')) {
+        return;
+    }
+
     const rows = [
         ['Date', 'Description', 'Type', 'Amount'],
         ...state.transactions.map(transaction => [
