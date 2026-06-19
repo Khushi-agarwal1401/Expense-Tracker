@@ -14,6 +14,7 @@ const resetBtn = document.getElementById('reset-btn');
 const cancelEditBtn = document.getElementById('cancel-edit-btn');
 const textError = document.getElementById('text-error');
 const amountError = document.getElementById('amount-error');
+const clearAllBtn = document.getElementById('clear-all-trigger');
 
 // Theme toggle functionality
 const themeToggle = document.getElementById('theme-toggle');
@@ -198,25 +199,62 @@ sortSelect?.addEventListener('change', (e) => {
     renderTransactions(sorted);
 });
 
-// Clear all handler
-const clearAllBtn = document.getElementById('clear-all-trigger');
+// Modal handling
+const openModal = (modalId) => {
+    const modal = document.getElementById(modalId);
+    modal?.classList.remove('hidden');
+};
+
+const closeModal = (modalId) => {
+    const modal = document.getElementById(modalId);
+    modal?.classList.add('hidden');
+};
+
+// Clear all modal handler
+const confirmClearBtn = document.getElementById('confirm-clear-btn');
+
 clearAllBtn?.addEventListener('click', () => {
-    if (confirm('Are you sure you want to clear all transactions? This cannot be undone.')) {
-        clearAllTransactions();
-        window.allTransactions = [];
-        window.filteredTransactions = [];
-        renderAll();
-    }
+    openModal('clear-all-modal');
 });
 
-// Expose for inline handlers
-window.enterEditMode = enterEditMode;
-window.deleteTransaction = (id) => {
-    deleteTransaction(id);
-    window.allTransactions = [...state.transactions];
-    window.filteredTransactions = [...state.transactions];
+confirmClearBtn?.addEventListener('click', () => {
+    clearAllTransactions();
+    window.allTransactions = [];
+    window.filteredTransactions = [];
     renderAll();
+    closeModal('clear-all-modal');
+});
+
+// Delete transaction with modal
+let pendingDeleteId = null;
+const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+const allCancelBtns = document.querySelectorAll('.modal-cancel');
+
+window.deleteTransaction = (id) => {
+    pendingDeleteId = id;
+    openModal('delete-modal');
 };
+
+confirmDeleteBtn?.addEventListener('click', () => {
+    if (pendingDeleteId) {
+        deleteTransaction(pendingDeleteId);
+        window.allTransactions = [...state.transactions];
+        window.filteredTransactions = [...state.transactions];
+        renderAll();
+    }
+    closeModal('delete-modal');
+    pendingDeleteId = null;
+});
+
+// Close all modals when clicking cancel
+allCancelBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.classList.add('hidden');
+        });
+        pendingDeleteId = null;
+    });
+});
 
 // Event Listeners
 form?.addEventListener('submit', handleFormSubmit);

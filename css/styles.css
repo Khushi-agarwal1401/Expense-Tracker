@@ -22,12 +22,12 @@
 
 /* Dark Mode Variables */
 [data-theme="dark"] {
-    --bg-main: #0F172A;
-    --card-bg: #1E293B;
+    --bg-main: #0B1120;
+    --card-bg: #111827;
     --text-main: #F8FAFC;
-    --text-muted: #94A3B8;
-    --border: #334155;
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --text-muted: #A3A3A3;
+    --border: #243044;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.45), 0 2px 4px -1px rgba(0, 0, 0, 0.28);
 }
 
 /* Reset */
