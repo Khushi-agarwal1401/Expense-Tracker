@@ -131,7 +131,7 @@ const exitEditMode = () => {
     cancelEditBtn.classList.add('hidden');
 };
 
-export const enterEditMode = (id) => {
+window.enterEditMode = (id) => {
     const transaction = getTransaction(id);
     if (!transaction) return;
     
