@@ -4,6 +4,7 @@ import { renderAll, renderTransactions, renderOverview } from './render.js';
 // DOM Elements
 const form = document.getElementById('transaction-form');
 const descriptionInput = document.getElementById('text');
+const categoryInput = document.getElementById('category');
 const amountInput = document.getElementById('amount');
 const typeInput = document.getElementById('type');
 const dateInput = document.getElementById('date');
@@ -94,6 +95,7 @@ const handleFormSubmit = (e) => {
     if (!validateForm()) return;
     
     const description = descriptionInput.value.trim();
+    const category = categoryInput.value.trim() || 'Uncategorized';
     const amount = parseFloat(amountInput.value) || 0;
     const type = typeInput.value;
     const date = dateInput.value || new Date().toISOString().split('T')[0];
@@ -101,10 +103,10 @@ const handleFormSubmit = (e) => {
     const editId = editIdInput.value;
     
     if (editId) {
-        updateTransaction(editId, description, amount, type, date);
+        updateTransaction(editId, description, category, amount, type, date);
         exitEditMode();
     } else {
-        addTransaction(description, amount, type, date);
+        addTransaction(description, category, amount, type, date);
     }
     
     clearForm();
@@ -117,6 +119,7 @@ const handleFormSubmit = (e) => {
 
 const clearForm = () => {
     descriptionInput.value = '';
+    categoryInput.value = '';
     amountInput.value = '';
     typeInput.value = 'expense';
 };
@@ -137,6 +140,7 @@ window.enterEditMode = (id) => {
     
     editIdInput.value = transaction.id;
     descriptionInput.value = transaction.description;
+    categoryInput.value = transaction.category === 'Uncategorized' ? '' : transaction.category;
     amountInput.value = Math.abs(transaction.amount);
     typeInput.value = transaction.type;
     dateInput.value = transaction.date;
@@ -228,10 +232,11 @@ const exportTransactionsToExcel = () => {
 
 const downloadTransactionsToExcel = () => {
     const rows = [
-        ['Date', 'Description', 'Type', 'Amount'],
+        ['Date', 'Description', 'Category', 'Type', 'Amount'],
         ...state.transactions.map(transaction => [
             transaction.date,
             transaction.description,
+            transaction.category,
             transaction.type,
             transaction.amount
         ])

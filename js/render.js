@@ -152,6 +152,7 @@ export const renderTransactions = (transactions = state.transactions) => {
         tr.innerHTML = `
             <td>${index + 1}</td>
             <td>${t.description}</td>
+            <td><span class="text-muted" style="font-size: 0.8rem;">${t.category}</span></td>
             <td class="${textColorClass}">${sign}${formatMoney(displayAmount)}</td>
             <td><span class="badge ${badgeClass}">${t.type}</span></td>
             <td>${t.date}</td>

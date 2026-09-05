@@ -12,13 +12,14 @@ export const saveState = () => {
     saveTransactions(state.transactions);
 };
 
-export const addTransaction = (description, amount, type, date) => {
+export const addTransaction = (description, category, amount, type, date) => {
     const numericAmount = +amount;
     const signedAmount = (type === 'expense' || type === 'lend') ? -Math.abs(numericAmount) : Math.abs(numericAmount);
     
     const transaction = {
         id: Date.now().toString(),
         description,
+        category: category || 'Uncategorized',
         amount: signedAmount,
         type,
         date: date || new Date().toISOString().split('T')[0]
@@ -33,7 +34,7 @@ export const deleteTransaction = (id) => {
     saveState();
 };
 
-export const updateTransaction = (id, description, amount, type, date) => {
+export const updateTransaction = (id, description, category, amount, type, date) => {
     const index = state.transactions.findIndex(t => t.id === id);
     if (index !== -1) {
         const numericAmount = +amount;
@@ -42,6 +43,7 @@ export const updateTransaction = (id, description, amount, type, date) => {
         state.transactions[index] = {
             ...state.transactions[index],
             description,
+            category: category || 'Uncategorized',
             amount: signedAmount,
             type,
             date: date || state.transactions[index].date

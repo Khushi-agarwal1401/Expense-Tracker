@@ -101,6 +101,11 @@
                             <span id="text-error" class="validation-error">Please enter a description</span>
                         </div>
                         <div class="form-group">
+                            <label for="category">Category</label>
+                            <input type="text" id="category" placeholder="Enter category (e.g. Salary, Food)" autocomplete="off">
+                            <span id="category-error" class="validation-error">Please enter a category</span>
+                        </div>
+                        <div class="form-group">
                             <label for="amount">Amount</label>
                             <input type="number" id="amount" placeholder="Enter amount" step="0.01">
                             <span id="amount-error" class="validation-error">Please enter a valid amount</span>
@@ -205,6 +210,9 @@
                                 <i class="fa-solid fa-file-excel"></i>
                                 Export Excel
                             </button>
+                            <a href="preview.html" class="btn btn-secondary" style="text-decoration: none;">
+                                <i class="fa-solid fa-eye"></i> Preview All
+                            </a>
                             <button class="btn btn-danger-outline" id="clear-all-trigger">Clear All</button>
                         </div>
                     </div>
@@ -216,6 +224,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Description</th>
+                                    <th>Category</th>
                                     <th>Amount</th>
                                     <th>Type</th>
                                     <th>Date</th>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview Transactions - Expense Tracker</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <style>
+        .preview-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .preview-header h2 {
+            font-size: 1.5rem;
+            color: var(--text-main);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="top-nav">
+        <div class="nav-left">
+            <div class="logo">
+                <i class="fa-solid fa-chart-pie"></i>
+            </div>
+            <div class="brand">
+                <h1>Expense Tracker</h1>
+                <p>All Transactions Preview</p>
+            </div>
+        </div>
+        <div class="nav-right">
+            <a href="index.html" class="btn btn-secondary" style="text-decoration: none;">
+                <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+            </a>
+            <button class="icon-btn theme-toggle" id="theme-toggle" aria-label="Toggle Dark Mode">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="preview-container">
+        <div class="preview-layout" style="display: flex; gap: 2rem; align-items: flex-start;">
+            
+            <div class="preview-main" style="flex: 1; min-width: 0;">
+                <div class="preview-header">
+                    <h2>All Transactions</h2>
+                    
+                    <div class="toolbar">
+                        <div class="filter-box">
+                            <select id="filter-select">
+                                <option value="all">All</option>
+                                <option value="income">Income</option>
+                                <option value="expense">Expense</option>
+                                <option value="borrow">Borrow</option>
+                                <option value="lend">Lend</option>
+                            </select>
+                        </div>
+                        <div class="sort-box">
+                            <select id="sort-select">
+                                <option value="latest">Latest</option>
+                                <option value="oldest">Oldest</option>
+                                <option value="highest">Highest Amount</option>
+                                <option value="lowest">Lowest Amount</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+        <div class="table-container">
+            <table class="transaction-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>Type</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody id="transaction-list">
+                    <!-- JS renders rows here -->
+                </tbody>
+            </table>
+            
+                <!-- Empty State -->
+                <div id="empty-state" class="empty-state">
+                    <img src="https://cdn-icons-png.flaticon.com/512/7486/7486831.png" alt="No Data" class="empty-img" style="opacity: 0.5; width: 64px; margin-bottom: 1rem;">
+                    <h4>No transactions available</h4>
+                    <p>Go back to the dashboard to add some.</p>
+                </div>
+            </div>
+            </div>
+            
+            <aside class="preview-sidebar" style="flex: 0 0 350px;">
+                <div class="card overview-card">
+                    <h3>Monthly Overview</h3>
+                    <div class="overview-content">
+                        <div class="donut-chart-container">
+                            <div class="donut-chart" id="donut-chart">
+                                <div class="donut-hole"></div>
+                            </div>
+                        </div>
+                        <div class="overview-legend">
+                            <div class="legend-item">
+                                <span class="dot green"></span>
+                                <span class="label">Income</span>
+                                <span class="percent" id="income-percent">0%</span>
+                            </div>
+                            <div class="progress-bar-container"><div class="progress-bar green" id="income-bar"></div></div>
+                            
+                            <div class="legend-item mt-15">
+                                <span class="dot red"></span>
+                                <span class="label">Expenses</span>
+                                <span class="percent" id="expense-percent">0%</span>
+                            </div>
+                            <div class="progress-bar-container"><div class="progress-bar red" id="expense-bar"></div></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card overview-card mt-30">
+                    <h3>Income by Category</h3>
+                    <div class="overview-content">
+                        <div class="overview-legend" id="income-category-graph">
+                            <!-- JS renders category bars here -->
+                            <p class="text-muted" style="font-size: 0.875rem; text-align: center;">No income transactions available.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card overview-card mt-30">
+                    <h3>Expenses by Category</h3>
+                    <div class="overview-content">
+                        <div class="overview-legend" id="expense-category-graph">
+                            <!-- JS renders category bars here -->
+                            <p class="text-muted" style="font-size: 0.875rem; text-align: center;">No expense transactions available.</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Modular JS -->
+    <script type="module" src="js/preview.js"></script>
+</body>
+</html>
