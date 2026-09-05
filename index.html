@@ -30,6 +30,9 @@
             </div>
         </div>
         <div class="nav-right">
+            <a href="preview.html" class="btn btn-secondary" style="text-decoration: none; margin-right: 1rem;">
+                <i class="fa-solid fa-eye"></i> Preview All
+            </a>
             <button class="icon-btn theme-toggle" id="theme-toggle" aria-label="Toggle Dark Mode">
                 <i class="fa-solid fa-moon"></i>
             </button>
@@ -133,32 +136,7 @@
                     </form>
                 </div>
 
-                <!-- Monthly Overview Section -->
-                <div class="card overview-card mt-30">
-                    <h3>Monthly Overview</h3>
-                    <div class="overview-content">
-                        <div class="donut-chart-container">
-                            <div class="donut-chart" id="donut-chart">
-                                <div class="donut-hole"></div>
-                            </div>
-                        </div>
-                        <div class="overview-legend">
-                            <div class="legend-item">
-                                <span class="dot green"></span>
-                                <span class="label">Income</span>
-                                <span class="percent" id="income-percent">0%</span>
-                            </div>
-                            <div class="progress-bar-container"><div class="progress-bar green" id="income-bar"></div></div>
-                            
-                            <div class="legend-item mt-15">
-                                <span class="dot red"></span>
-                                <span class="label">Expenses</span>
-                                <span class="percent" id="expense-percent">0%</span>
-                            </div>
-                            <div class="progress-bar-container"><div class="progress-bar red" id="expense-bar"></div></div>
-                        </div>
-                    </div>
-                </div>
+
             </aside>
 
             <!-- Right Panel: Transaction History -->
@@ -210,9 +188,6 @@
                                 <i class="fa-solid fa-file-excel"></i>
                                 Export Excel
                             </button>
-                            <a href="preview.html" class="btn btn-secondary" style="text-decoration: none;">
-                                <i class="fa-solid fa-eye"></i> Preview All
-                            </a>
                             <button class="btn btn-danger-outline" id="clear-all-trigger">Clear All</button>
                         </div>
                     </div>
