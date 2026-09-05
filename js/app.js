@@ -171,6 +171,10 @@ filterSelect?.addEventListener('change', (e) => {
         filtered = filtered.filter(t => t.type === 'income');
     } else if (filter === 'expense') {
         filtered = filtered.filter(t => t.type === 'expense');
+    } else if (filter === 'borrow') {
+        filtered = filtered.filter(t => t.type === 'borrow');
+    } else if (filter === 'lend') {
+        filtered = filtered.filter(t => t.type === 'lend');
     }
     
     window.filteredTransactions = filtered;

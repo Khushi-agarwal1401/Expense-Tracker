@@ -14,7 +14,7 @@ export const saveState = () => {
 
 export const addTransaction = (description, amount, type, date) => {
     const numericAmount = +amount;
-    const signedAmount = type === 'expense' ? -Math.abs(numericAmount) : Math.abs(numericAmount);
+    const signedAmount = (type === 'expense' || type === 'lend') ? -Math.abs(numericAmount) : Math.abs(numericAmount);
     
     const transaction = {
         id: Date.now().toString(),
@@ -37,7 +37,7 @@ export const updateTransaction = (id, description, amount, type, date) => {
     const index = state.transactions.findIndex(t => t.id === id);
     if (index !== -1) {
         const numericAmount = +amount;
-        const signedAmount = type === 'expense' ? -Math.abs(numericAmount) : Math.abs(numericAmount);
+        const signedAmount = (type === 'expense' || type === 'lend') ? -Math.abs(numericAmount) : Math.abs(numericAmount);
         
         state.transactions[index] = {
             ...state.transactions[index],

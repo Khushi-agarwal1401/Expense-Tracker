@@ -16,10 +16,24 @@ const calculateExpense = (transactions) => {
         .reduce((sum, item) => sum + Math.abs(item.amount), 0);
 };
 
+const calculateBorrow = (transactions) => {
+    return transactions
+        .filter(item => item.type === 'borrow')
+        .reduce((sum, item) => sum + Math.abs(item.amount), 0);
+};
+
+const calculateLend = (transactions) => {
+    return transactions
+        .filter(item => item.type === 'lend')
+        .reduce((sum, item) => sum + Math.abs(item.amount), 0);
+};
+
 const calculateBalance = (transactions) => {
     const income = calculateIncome(transactions);
     const expense = calculateExpense(transactions);
-    return income - expense;
+    const borrow = calculateBorrow(transactions);
+    const lend = calculateLend(transactions);
+    return income + borrow - expense - lend;
 };
 
 const getTransactionCount = (transactions) => {
@@ -30,18 +44,24 @@ export const renderSummary = () => {
     const balanceEl = document.getElementById('current-balance');
     const incomeEl = document.getElementById('total-income');
     const expenseEl = document.getElementById('total-expenses');
+    const borrowEl = document.getElementById('total-borrow');
+    const lendEl = document.getElementById('total-lend');
     const countEl = document.getElementById('transaction-count');
     
     if (!balanceEl) return;
     
     const income = calculateIncome(state.transactions);
     const expense = calculateExpense(state.transactions);
+    const borrow = calculateBorrow(state.transactions);
+    const lend = calculateLend(state.transactions);
     const balance = calculateBalance(state.transactions);
     const count = getTransactionCount(state.transactions);
     
     balanceEl.innerText = `${balance < 0 ? '-' : ''}${formatMoney(balance)}`;
     incomeEl.innerText = `${formatMoney(income)}`;
     expenseEl.innerText = `${formatMoney(expense)}`;
+    if (borrowEl) borrowEl.innerText = `${formatMoney(borrow)}`;
+    if (lendEl) lendEl.innerText = `${formatMoney(lend)}`;
     countEl.innerText = count;
     
     balanceEl.style.color = balance >= 0 ? 'var(--primary)' : 'var(--expense)';
@@ -122,11 +142,18 @@ export const renderTransactions = (transactions = state.transactions) => {
         const sign = t.amount < 0 ? '-' : '+';
         const displayAmount = Math.abs(t.amount);
         
+        let textColorClass = '';
+        let badgeClass = '';
+        if (t.type === 'income') { textColorClass = 'text-green'; badgeClass = 'income-badge'; }
+        else if (t.type === 'expense') { textColorClass = 'text-red'; badgeClass = 'expense-badge'; }
+        else if (t.type === 'borrow') { textColorClass = 'text-blue'; badgeClass = 'borrow-badge'; }
+        else if (t.type === 'lend') { textColorClass = 'text-purple'; badgeClass = 'lend-badge'; }
+        
         tr.innerHTML = `
             <td>${index + 1}</td>
             <td>${t.description}</td>
-            <td class="${t.type === 'income' ? 'text-green' : 'text-red'}">${sign}${formatMoney(displayAmount)}</td>
-            <td><span class="badge ${t.type === 'income' ? 'income-badge' : 'expense-badge'}">${t.type}</span></td>
+            <td class="${textColorClass}">${sign}${formatMoney(displayAmount)}</td>
+            <td><span class="badge ${badgeClass}">${t.type}</span></td>
             <td>${t.date}</td>
             <td>
                 <div class="action-btns">
