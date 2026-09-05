@@ -5,7 +5,7 @@ A fully-responsive Expense Tracker web application built with pure HTML5, CSS3, 
 ## Features
 
 ### Core CRUD Operations
-- **Create**: Add income, expense, borrow, or lend transactions with description, amount, type, and date
+- **Create**: Add income, expense, borrow, or lend transactions with description, category, amount, type, and date
 - **Read**: Display transactions in a table with transaction count
 - **Update**: Edit existing transactions in-place
 - **Delete**: Remove individual transactions or clear all
@@ -21,11 +21,15 @@ A fully-responsive Expense Tracker web application built with pure HTML5, CSS3, 
 - Balance calculation (income + borrow - expenses - lend)
 - Transaction count
 - Statistics: Highest Income, Highest Expense, Average Transaction
+- Income and Expense grouped by categories with progress bars
 
 ### UI Features
 - Responsive design (320px mobile, 768px tablet, desktop)
 - Clean theme with light/dark mode toggle
 - Real-time form validation with error messages
+- Dedicated **Preview All** page for full-screen transaction viewing
+- Income and Expense Category visualization graphs
+- Export transactions to Excel (CSV format)
 - Empty state handling
 - Sort by amount or date
 - Filter by income/expense/borrow/lend/all
@@ -35,12 +39,14 @@ A fully-responsive Expense Tracker web application built with pure HTML5, CSS3, 
 
 ```
 expense-tracker/
-├── index.html
+├── index.html          # Main dashboard
+├── preview.html        # Preview all transactions page
 ├── css/
 │   ├── styles.css      # Base styles (light/dark theme)
 │   └── responsive.css  # Media queries
 ├── js/
 │   ├── app.js          # Main entry point, form handlers, event listeners
+│   ├── preview.js      # Logic for the preview page and charts
 │   ├── render.js       # DOM rendering functions
 │   ├── state/
 │   │   └── transactions.js  # State management (CRUD operations)
