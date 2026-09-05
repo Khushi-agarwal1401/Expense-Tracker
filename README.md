@@ -5,7 +5,7 @@ A fully-responsive Expense Tracker web application built with pure HTML5, CSS3, 
 ## Features
 
 ### Core CRUD Operations
-- **Create**: Add income or expense transactions with description, amount, type, and date
+- **Create**: Add income, expense, borrow, or lend transactions with description, amount, type, and date
 - **Read**: Display transactions in a table with transaction count
 - **Update**: Edit existing transactions in-place
 - **Delete**: Remove individual transactions or clear all
@@ -17,7 +17,8 @@ A fully-responsive Expense Tracker web application built with pure HTML5, CSS3, 
 ### Calculations
 - Income total using `filter()` and `reduce()`
 - Expense total using `filter()` and `reduce()`
-- Balance calculation (income - expenses)
+- Borrow and Lend totals using `filter()` and `reduce()`
+- Balance calculation (income + borrow - expenses - lend)
 - Transaction count
 - Statistics: Highest Income, Highest Expense, Average Transaction
 
@@ -27,7 +28,7 @@ A fully-responsive Expense Tracker web application built with pure HTML5, CSS3, 
 - Real-time form validation with error messages
 - Empty state handling
 - Sort by amount or date
-- Filter by income/expense/all
+- Filter by income/expense/borrow/lend/all
 - Search by description
 
 ## Project Structure
